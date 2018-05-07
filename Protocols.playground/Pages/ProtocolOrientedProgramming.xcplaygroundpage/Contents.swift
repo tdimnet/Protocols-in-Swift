@@ -13,7 +13,20 @@ protocol Destructable {
     func decreaseLife(by factor: Int)
 }
 
-protocol Attackable {}
+protocol Player: Destructable {
+    var position: Point { get set }
+    var life: Int { get set }
+    
+    init(x: Int, y: Int)
+}
+
+protocol Attacker {
+    var strength: Int { get }
+    var range: Int { get }
+    
+    func attack(player: Player)
+}
+
 
 struct Point {
     let x: Int
@@ -47,9 +60,11 @@ struct Point {
 }
 
 // Enemy
-class Enemy {
+class Enemy: Player, Attacker, Movable {
     var life: Int = 2
-    let position: Point
+    var position: Point
+    var strength: Int = 5
+    var range: Int = 2
     
     required init(x: Int, y: Int) {
         self.position = Point(x: x, y: y)
@@ -57,6 +72,19 @@ class Enemy {
     
     func decreaseLife(by factor: Int) {
         life -= factor
+    }
+    
+    func attack(player: Player) {
+        player.decreaseLife(by: strength)
+    }
+    
+    func move(_ direction: Direction, by distance: Int) {
+        switch direction {
+        case Direction.up: position = Point(x: position.x, y: position.y + 1)
+        case Direction.down: position = Point(x: position.x, y: position.y - 1)
+        case Direction.left: position = Point(x: position.x - 1, y: position.y)
+        case Direction.right: position = Point(x: position.x + 1, y: position.y)
+        }
     }
 }
 
