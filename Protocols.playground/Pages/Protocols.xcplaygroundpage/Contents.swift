@@ -90,22 +90,85 @@ employee.pay()
 anotherEmployee.pay()
 
 
+// Loosely Related Types
+protocol Blendable {
+    func blend()
+}
 
+class Fruit: Blendable {
+    var name: String
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    func blend() {
+        print("I'm mush!")
+    }
+}
 
+class Dairy {
+    var name: String
+    
+    init(name: String) {
+        self.name = name
+    }
+}
 
+class Cheese: Dairy {}
 
+class Milk: Dairy, Blendable {
+    func blend() {
+        print("I haven't change at all! I'm still milk")
+    }
+}
 
+func makeSmoothie(with ingredients: [Blendable]) {
+    for ingredient in ingredients {
+        ingredient.blend()
+    }
+}
 
+let strawberry: Fruit = Fruit(name: "Strawberry")
+let cheddar: Cheese = Cheese(name: "Cheddar")
+let chocolateMilk: Milk = Milk(name: "Chocolate")
 
+let ingredients: [Blendable] = [strawberry, chocolateMilk] // -> if I use cheddar, it would raise an error since it is now a Blendable type
+makeSmoothie(with: ingredients)
 
+// Random Number Generator
+protocol RandomNumberGenerator {
+    func random() -> Double
+}
 
+class LinearCongruentialGenerator: RandomNumberGenerator {
+    var lastRandom = 42.0
+    let m = 139968.0
+    let a = 3877.0
+    let c = 29573.0
+    
+    func random() -> Double {
+        lastRandom = ((lastRandom * a + c).truncatingRemainder(dividingBy: m))
+        return lastRandom/m
+    }
+}
 
+class Dice {
+    let sides: Int
+    let generator: RandomNumberGenerator
+    
+    init(sides: Int, generator: RandomNumberGenerator) {
+        self.sides = sides
+        self.generator = generator
+    }
+    
+    func roll() -> Int {
+        return Int(generator.random() * Double(sides)) + 1
+    }
+}
 
-
-
-
-
-
+var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
+d6.roll()
 
 
 
