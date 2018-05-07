@@ -4,11 +4,11 @@ protocol FullNameable {
 }
 
 
-struct User: FullNameable {
-    var fullName: String
-}
-
-let user = User(fullName: "John Smith")
+//struct User: FullNameable {
+//    var fullName: String
+//}
+//
+//let user = User(fullName: "John Smith")
 
 struct Friend: FullNameable {
     let firstName: String
@@ -169,6 +169,35 @@ class Dice {
 
 var d6 = Dice(sides: 6, generator: LinearCongruentialGenerator())
 d6.roll()
+
+
+// Protocol Inheritance
+protocol Printable {
+    func description() -> String
+}
+
+protocol PrettyPrintable: Printable {
+    func prettyDescription() -> String
+}
+
+struct User: PrettyPrintable {
+    let name: String
+    let age: Int
+    let address: String
+    
+    func description() -> String {
+        return "\(name), \(age), \(address)"
+    }
+    
+    func prettyDescription() -> String {
+        return "name: \(name)\nage: \(age)\naddress: \(address)"
+    }
+}
+
+let user = User(name: "Thomas", age: 29, address: "someAddress")
+print(user.prettyDescription())
+
+
 
 
 
