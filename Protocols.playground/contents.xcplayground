@@ -4,5 +4,6 @@
         <page name='ProtocolsChallenge'/>
         <page name='Protocols'/>
         <page name='ExampleWithoutProtocol'/>
+        <page name='ProtocolOrientedProgramming'/>
     </pages>
 </playground>
