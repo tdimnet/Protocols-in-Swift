@@ -3,5 +3,6 @@
     <pages>
         <page name='ProtocolsChallenge'/>
         <page name='Protocols'/>
+        <page name='ExampleWithoutProtocol'/>
     </pages>
 </playground>

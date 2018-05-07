@@ -32,6 +32,10 @@ enum EmployeeType {
     case traditional
 }
 
+protocol Payable {
+    func pay() -> Paycheck
+}
+
 struct Paycheck {
     let base: Double
     let benefits: Double
@@ -51,37 +55,39 @@ class Employee {
         self.startDate = startDate
         self.type = type
     }
-    
-    func pay() -> Paycheck {
-        return Paycheck(base: 0, benefits: 0, deductions: 0, vacation: 0)
-    }
 }
 
-class HourlyEmployee: Employee {
+class HourlyEmployee: Employee, Payable {
     var hourlyWage: Double = 15.00
     var hoursWorked: Double = 0.0
-    let vacation: Double = 0
+    let vacation: Double = 0.0
     
-    override func pay() -> Paycheck {
-        let base = hourlyWage * hoursWorked
+    func pay() -> Paycheck {
+        let base = hoursWorked * hourlyWage
         return Paycheck(base: base, benefits: 0, deductions: 0, vacation: 0)
     }
 }
 
-class SalariedEmployee: Employee {
+class SalariedEmployee: Employee, Payable {
     var salary: Double = 50000.00
     var benefits: Double = 1000.00
     var deductions: Double = 0.0
-    var vacation: Double = 2
+    var vacation: Double = 2.0
+    
+    func pay() -> Paycheck {
+        let montly = salary / 12
+        return Paycheck(base: montly, benefits: benefits, deductions: deductions, vacation: vacation)
+    }
 }
 
-
-func pay(employee: Employee) {
+func pay(employee: Payable) {
     employee.pay()
 }
 
-
-
+let employee: SalariedEmployee = SalariedEmployee(name: "Thomas", address: "someAddress", startDate: Date(), type: EmployeeType.traditional)
+let anotherEmployee: HourlyEmployee = HourlyEmployee(name: "Marc", address: "someAddress", startDate: Date(), type: EmployeeType.traditional)
+employee.pay()
+anotherEmployee.pay()
 
 
 
