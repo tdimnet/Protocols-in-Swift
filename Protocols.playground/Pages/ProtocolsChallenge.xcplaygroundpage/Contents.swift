@@ -57,3 +57,39 @@ class WifiLamp: ColorSwitchable {
         self.color = color
     }
 }
+
+
+
+// 4.1
+/*
+ In the editor, I've provided a simple protocol to represent an animal.
+ For the first task, create a protocol named Pet which should inherit from Animal and require an additional gettable stored property, cuddlyName, of type String.
+ */
+protocol Animal {
+    var numberOfLegs: Int { get }
+}
+
+protocol Pet: Animal {
+    var cuddlyName: String { get }
+}
+
+// 4.2
+/*
+ For the next step, create a struct named Dog that conforms to Pet.
+ */
+struct Dog: Pet {
+    var numberOfLegs: Int
+    var cuddlyName: String
+}
+
+let dog = Dog(numberOfLegs: 4, cuddlyName: "Pouli")
+
+
+
+
+
+
+
+
+
+
